@@ -1,6 +1,6 @@
 name: MT sync code & data shared # download & parse
 on:
-  worflow_call:
+  workflow_call:
 #   workflow_dispatch: # manual
 #   schedule:  TODO
 #     cron: 0 0 * * 1 # 0 0 * * MON # WEEKLY
