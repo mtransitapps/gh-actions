@@ -1,0 +1,19 @@
+version: 2
+updates:
+  # GitHub Actions
+  - package-ecosystem: "github-actions"
+    directories:
+      - "/"
+      - "/.github/actions/"
+    schedule:
+      interval: "weekly"
+      day: "wednesday"
+      time: "16:00"
+      timezone: "America/Montreal"
+    assignees:
+      - "montransit"
+    groups:
+      gh-actions:
+        patterns:
+          - "actions/*"
+    open-pull-requests-limit: 7
