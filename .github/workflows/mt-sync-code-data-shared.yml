@@ -18,7 +18,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: MT check out main repository code (no submodules)
-        uses: actions/checkout@v2
+        uses: actions/checkout@v6
         with:
           submodules: true # required to set right token
           token: ${{ secrets.MT_PAT }}
@@ -46,12 +46,12 @@ jobs:
       #     git push -v
       #     git submodule foreach git push -v
       - name: MT set up JDK 11
-        uses: actions/setup-java@v2
+        uses: actions/setup-java@v5
         with:
           distribution: 'adopt-hotspot' # 'adopt'
           java-version: '11'
       - name: MT cache > Gradle wrapper
-        uses: actions/cache@v2
+        uses: actions/cache@v5
         with:
           path: |
             ~/.gradle/wrapper
@@ -61,7 +61,7 @@ jobs:
       - name: MT Gradle cache > Generate key
         run: ./init_cache_key.sh
       - name: MT cache > Gradle cache
-        uses: actions/cache@v2
+        uses: actions/cache@v5
         with:
           path: |
             ~/.gradle/caches
@@ -76,7 +76,7 @@ jobs:
         env:
           MT_ENCRYPT_KEY: ${{ secrets.MT_ENCRYPT_KEY }}
       - name: MT artifact > unit tests XML results
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v7
         if: ${{ always() }} # evern if tests fails
         with:
           name: unit-test-xml-results
@@ -85,7 +85,7 @@ jobs:
             */build/test-results/*.xml
             */build/reports/*.xml
       - name: MT artifact > HTML reports
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v7
         if: ${{ always() }} # evern if tests fails
         with:
           name: html-reports
@@ -103,7 +103,7 @@ jobs:
         env:
           MT_ENCRYPT_KEY: ${{ secrets.MT_ENCRYPT_KEY }}
       - name: MT artifact > app-android > APK & ABB
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v7
         with:
           name: app-android-apk-bundle
           path: |
