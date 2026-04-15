@@ -6,6 +6,11 @@ inputs:
     type: boolean
     default: false
     required: false
+  image-gen:
+    description: "Enable generating images during setup (downloads inkscape & imagemagick)."
+    type: boolean
+    default: false
+    required: false
 # TODO outputs?
 
 runs:
@@ -60,7 +65,7 @@ runs:
           for attempt in $(seq 1 ${max_attempts}); do
             echo "[MT] > Installing apt dependencies (attempt ${attempt}/${max_attempts})..."
             # can not use '--no-install-recommends' because some of those recommended dependencies are required
-            if timeout 5m sudo apt-get update && timeout 10m sudo apt-get install -y libxml2-utils jq inkscape imagemagick; then
+            if timeout 5m sudo apt-get update && timeout 10m sudo apt-get install -y libxml2-utils jq; then
               echo "[MT] > apt dependencies installed successfully."
               break
             elif [[ ${attempt} -lt ${max_attempts} ]]; then
@@ -71,6 +76,31 @@ runs:
               exit 1
             fi
           done
+
+      - name: MT install apt image dependencies
+        if: ${{ inputs.image-gen == 'true' }}
+        shell: bash
+        run: |
+          max_attempts=2
+          for attempt in $(seq 1 ${max_attempts}); do
+            echo "[MT] > Installing apt image dependencies (attempt ${attempt}/${max_attempts})..."
+            # can not use '--no-install-recommends' because some of those recommended dependencies are required
+            if timeout 10m sudo apt-get install -y inkscape imagemagick; then
+              echo "[MT] > apt image dependencies installed successfully."
+              break
+            elif [[ ${attempt} -lt ${max_attempts} ]]; then
+              echo "[MT] > apt image dependencies installation failed or timed out, retrying in 20 seconds..."
+              sleep 20
+            else
+              echo "[MT] > apt image dependencies installation failed after ${attempt} attempts."
+              exit 1
+            fi
+          done
+
+      - name: MT set MT_GENERATE_IMAGES env
+        shell: bash
+        run: |
+          echo "MT_GENERATE_IMAGES=${{ inputs.image-gen == 'true' && 'true' || 'false' }}" >> $GITHUB_ENV
 
       - name: MT code sync
         shell: bash
