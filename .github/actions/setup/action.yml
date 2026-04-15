@@ -85,7 +85,7 @@ runs:
           for attempt in $(seq 1 ${max_attempts}); do
             echo "[MT] > Installing apt image dependencies (attempt ${attempt}/${max_attempts})..."
             # can not use '--no-install-recommends' because some of those recommended dependencies are required
-            if timeout 10m sudo apt-get install -y inkscape imagemagick; then
+            if timeout 5m sudo apt-get update && timeout 10m sudo apt-get install -y inkscape imagemagick; then
               echo "[MT] > apt image dependencies installed successfully."
               break
             elif [[ ${attempt} -lt ${max_attempts} ]]; then
@@ -97,11 +97,6 @@ runs:
             fi
           done
 
-      - name: MT set MT_GENERATE_IMAGES env
-        shell: bash
-        run: |
-          echo "MT_GENERATE_IMAGES=${{ inputs.image-gen == 'true' && 'true' || 'false' }}" >> $GITHUB_ENV
-
       - name: MT code sync
         shell: bash
         if: ${{ inputs.code-sync == 'true' }}
@@ -109,6 +104,8 @@ runs:
 
       - name: MT code setup
         shell: bash
+        env:
+          MT_GENERATE_IMAGES: ${{ inputs.image-gen == 'true' && 'true' || 'false' }}
         run: ./commons/code_setup.sh
 
       - name: MT set up JDK 17
