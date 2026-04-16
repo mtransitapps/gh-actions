@@ -26,7 +26,7 @@ runs:
         shell: bash
         run: |
           echo "[MT] > Checking out submodules closest branch, '$MT_BRANCH_NAME' or '$MT_TARGET_BRANCH_NAME' or '$MT_DEFAULT_BRANCH_NAME':"
-          git submodule foreach 'git checkout $MT_BRANCH_NAME || git checkout $MT_TARGET_BRANCH_NAME || git checkout $MT_DEFAULT_BRANCH_NAME'
+          git submodule foreach 'git switch $MT_BRANCH_NAME || git switch $MT_TARGET_BRANCH_NAME || git switch $MT_DEFAULT_BRANCH_NAME'
           echo "[MT] > Showing submodules current branch:"
           git submodule foreach 'git branch --show-current'
 
@@ -35,7 +35,7 @@ runs:
         shell: bash
         run: |
           echo "[MT] > Checking out this repo closest branch, '$MT_BRANCH_NAME' or '$MT_TARGET_BRANCH_NAME':"
-          git checkout $MT_BRANCH_NAME || git checkout $MT_TARGET_BRANCH_NAME
+          git switch $MT_BRANCH_NAME || git switch $MT_TARGET_BRANCH_NAME
           echo "[MT] > Showing this repo current branch:"
           git branch --show-current
 
