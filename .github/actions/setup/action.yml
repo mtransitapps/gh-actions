@@ -21,7 +21,7 @@ runs:
         shell: bash
         run: ./checkout_submodules.sh
 
-      - name: MT switching all git submodule closest branch
+      - name: MT switching all git submodule target branch
         if: github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch'
         shell: bash
         run: |
