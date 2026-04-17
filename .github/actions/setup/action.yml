@@ -45,7 +45,7 @@ runs:
         run: |
           REPOSITORY_OWNER_AND_NAME=${{ github.repository }};
           REPOSITORY_NAME=$(basename $REPOSITORY_OWNER_AND_NAME);
-          echo "[MT] > Checking out this repo '$REPOSITORY_NAME' workflow sha '$MT_SHA':"
+          echo "[MT] > Switching to this repo '$REPOSITORY_NAME' workflow sha '$MT_SHA':"
           git -C $REPOSITORY_NAME switch --detach $MT_SHA;
 
       - name: MT setup MT_GIT_BRANCH env
