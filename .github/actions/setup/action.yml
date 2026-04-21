@@ -19,7 +19,7 @@ runs:
 
       - name: MT init submodules
         shell: bash
-        run: ./checkout_submodules.sh
+        run: ./submodules_init.sh
 
       - name: MT switching all git submodule target branch
         if: github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch'
