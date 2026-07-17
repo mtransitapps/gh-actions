@@ -1,3 +1,4 @@
+# THIS FILE IS NOT USED AT THE MOMENT
 name: MT sync code & data shared # download & parse
 on:
   workflow_call:
@@ -45,11 +46,11 @@ jobs:
       #   run: |
       #     git push -v
       #     git submodule foreach git push -v
-      - name: MT set up JDK 11
+      - name: MT set up JDK 17
         uses: actions/setup-java@v5
         with:
-          distribution: 'adopt-hotspot' # 'adopt'
-          java-version: '11'
+          distribution: 'temurin'
+          java-version: '17'
       - name: MT cache > Gradle wrapper
         uses: actions/cache@v6
         with:
