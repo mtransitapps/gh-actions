@@ -73,7 +73,7 @@ runs:
               echo "[MT] > apt dependencies installed successfully."
               break
             elif [[ ${attempt} -lt ${max_attempts} ]]; then
-              echo "[MT] > apt dependencies installation failed or timed out, force public DNS for apit."
+              echo "[MT] > apt dependencies installation failed or timed out, force public DNS for apt."
               echo "nameserver 8.8.8.8" | sudo tee /etc/resolv.conf
               echo "[MT] > apt dependencies installation failed or timed out, retrying in 20 seconds..."
               sleep 20
